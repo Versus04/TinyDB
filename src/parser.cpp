@@ -8,8 +8,6 @@ command parser::parse(string& s)
     string query = s;
     std::string queryUpper = query;
 transform(queryUpper.begin(), queryUpper.end(), queryUpper.begin(), ::toupper);
-
-//    transform(query.begin(), query.end(), query.begin(), ::toupper);
         command cmd;
         
         if(queryUpper.substr(0,6)=="CREATE"){
@@ -41,28 +39,7 @@ transform(queryUpper.begin(), queryUpper.end(), queryUpper.begin(), ::toupper);
                     }
                     
                 }
-              /*  size_t valpos = query.find("VALUES");
-                if(valpos != std::string::npos)
-                {
-                    size_t start  = query.find("(",valpos);
-                    size_t end = query.find(")",valpos);
-                    if(start!=std::string::npos && end!=std::string::npos && end>start)
-                    {
-                        std::string valuestr = query.substr(start+1 , end-start-1);
-                        std::stringstream valstream(valuestr);
-                        std::string item;
-                        while (std::getline(valstream , item ,','))
-                        {
-                            item.erase(0, item.find_first_not_of(" \t\""));
-                            item.erase(item.find_last_not_of(" \t\"")+1);
-                            
-                            if (!item.empty()) {
-             cmd.values.push_back(item);
-    }   
-                        }
-                        
-                    }
-                }*/
+              
             }         
         }else if(queryUpper.substr(0,6)=="INSERT")
 {
@@ -98,8 +75,24 @@ else if(queryUpper.substr(0,6)=="SELECT")
     cmd.type = commandType::SELECT;
     size_t pos = queryUpper.find("FROM");
     if(pos!=std::string::npos){
-        std::stringstream ss(query.substr(pos+4)); 
+        std::string colpart = query.substr(7,pos-7);
+        std::stringstream colStream(colpart);
+        std::string col;
+        while (std::getline(colStream,col,','))
+        {
+            col.erase(0,col.find_first_not_of(" \t"));
+            col.erase(col.find_last_not_of(" \t")+1);
+            if (col=="*")
+            {
+                cmd.columns.push_back("*");
+            }else{
+                cmd.columns.push_back(col);
+            }
+            
+        }
+        std::stringstream ss(query.substr(pos + 4));
         ss >> cmd.tablename;
+        
     }
 }
 
