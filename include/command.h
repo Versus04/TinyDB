@@ -8,4 +8,6 @@ struct command{
     commandType type;
     std::string tablename;
     std::vector<std::string>values;
+    std::vector<std::string> columns;
+    std::vector<std::string> columnTypes;
 };

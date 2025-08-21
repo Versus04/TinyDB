@@ -15,7 +15,7 @@ int main() {
     string s;
     getline(cin, s);
     command cmd = p.parse(s);
-    cout<<cmd.tablename<<endl;
+    cout<<cmd.values.size()<<endl;
         
 }
     
