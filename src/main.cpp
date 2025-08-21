@@ -4,20 +4,22 @@
 #include "parser.h"
 
 using namespace std;
-int main() {
-    //Database db;
-    database db;
-    parser p;
-    while (true)
-    {
-    cout<<"db>";
 
-    string s;
-    getline(cin, s);
-    command cmd = p.parse(s);
-    cout<<cmd.values.size()<<endl;
-        
-}
-    
+int main() {
+    database db;  
+    parser p;     
+
+    while (true) {
+        cout << "db> ";
+
+        string s;
+        getline(cin, s);
+
+        if (s.empty()) continue;
+
+        command cmd = p.parse(s);   
+        db.execute(cmd);           
+    }
+
     return 0;
 }

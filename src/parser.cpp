@@ -2,10 +2,15 @@
 #include "parser.h"
 #include <algorithm>
 #include <sstream>
+std::string trim(const std::string& str) {
+    size_t start = str.find_first_not_of(" \t");
+    size_t end = str.find_last_not_of(" \t");
+    return (start == std::string::npos) ? "" : str.substr(start, end - start + 1);
+}
 command parser::parse(string& s)
 {
     
-    string query = s;
+    string query = trim(s);
     std::string queryUpper = query;
 transform(queryUpper.begin(), queryUpper.end(), queryUpper.begin(), ::toupper);
         command cmd;

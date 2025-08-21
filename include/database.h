@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "command.h"
 #include <unordered_map>
 struct Table{
     std::vector<std::string> coltype;

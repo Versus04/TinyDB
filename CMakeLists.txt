@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include)
 
-add_executable(minisql
+add_executable(TinyDB
     src/main.cpp
     src/database.cpp
     src/parser.cpp

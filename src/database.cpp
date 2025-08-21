@@ -9,7 +9,7 @@ void database::execute( const command& cmd)
     {
         if(tables.find(cmd.tablename)!=tables.end())
         {
-            std::cout<<"Error: Table"<<cmd.tablename<<" already exists.\n";
+            std::cout<<"Error: Table "<<cmd.tablename<<" already exists.\n";
             return ;
         }
         Table t;
