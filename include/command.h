@@ -17,4 +17,4 @@ struct command {
     std::vector<std::string> columnTypes;
 };
 
-#endif
+#endif  

@@ -1,8 +1,12 @@
 #include <iostream>
 #include "command.h"
+#include "table.h"
 #include "database.h"
 #include <unordered_map>
 #include <algorithm>
+#include <filesystem>
+namespace fs = std::filesystem;
+
 void database::execute( const command& cmd)
 {
     if(cmd.type==commandType::CREATE)
@@ -75,11 +79,34 @@ void database::execute( const command& cmd)
        
 
         } else if(cmd.type==commandType::EXIT){
+            saveAll();
             std::cout << "Exiting database...\n";
         exit(0);
         
     }
      else {
         std::cout << "Unknown command.\n";
+    }
+}
+void database::saveAll(const std::string& folder) {
+    fs::create_directories(folder);
+    for (auto& [name, table] : tables) {
+        std::string filename = folder + "/" + name + ".db";
+        table.saveToFile(filename);
+        std::cout << "Saved table " << name << " -> " << filename << "\n";
+    }
+}
+void database::loadAll(const std::string& folder) {
+    if (!fs::exists(folder)) return;
+
+    for (auto& entry : fs::directory_iterator(folder)) {
+        if (entry.path().extension() == ".db") {
+            std::string tablename = entry.path().stem().string();
+            Table t;
+            t.loadFromFile(entry.path().string());
+            tables[tablename] = t;
+            std::cout << "Loaded table " << tablename 
+                      << " from " << entry.path().string() << "\n";
+        }
     }
 }

@@ -8,7 +8,7 @@ using namespace std;
 int main() {
     database db;  
     parser p;     
-
+    db.loadAll();   
     while (true) {
         cout << "db> ";
 
